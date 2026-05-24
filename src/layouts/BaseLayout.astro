@@ -34,7 +34,15 @@ const year = new Date().getFullYear();
     <title>{fullTitle}</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonicalURL} />
+
+    {/* Favicons + PWA manifest. Source files live in /public.
+        Browsers auto-request /favicon.ico so no <link> is needed for it. */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#F6F1E4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1F1A" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />

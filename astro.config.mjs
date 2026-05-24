@@ -3,10 +3,9 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// TODO(domain): replace with real domain once purchased.
-// This is the single source of truth for the canonical site URL —
+// Single source of truth for the canonical site URL —
 // metadata, sitemap, and OG tags all derive from it.
-const SITE_URL = 'https://catdadgames.example';
+const SITE_URL = 'https://catdadgames.com';
 
 export default defineConfig({
   site: SITE_URL,

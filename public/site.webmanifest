@@ -1,0 +1,24 @@
+{
+  "name": "Cat Dad Games",
+  "short_name": "CDGames",
+  "description": "A curated, ad-free home for browser games anyone can play.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#14352A",
+  "background_color": "#F6F1E4",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
