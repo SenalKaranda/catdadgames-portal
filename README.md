@@ -1,43 +1,25 @@
-# Astro Starter Kit: Minimal
+# Cat Dad Games
 
-```sh
-npm create astro@latest -- --template minimal
+Cat Dad Games is a small collection of accessible, ad-free, in-browser games built for older adults, nonprofits, families, and schools. All games are free to play, require no accounts, and are designed to be safe and private. This site is powered by [Astro](https://astro.build).
+
+## 🗂️ Project Structure
+
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
 /
-├── public/
+├── public/                     # Static files (e.g. favicon, robots.txt)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── content/                # Source data for games (YAML, images)
+│   ├── components/             # Astro/React UI components
+│   ├── layouts/                # Astro page layouts
+│   └── pages/                  # Markdown and Astro pages (routed)
+├── package.json
+└── astro.config.mjs
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🙋 FAQ and Docs
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- See [`src/pages/about.md`](src/pages/about.md) for project philosophy.
+- [`src/pages/for-organizations.md`](src/pages/for-organizations.md) gives practical advice for libraries and care settings.
+- Questions or feedback? See the [Feedback page](src/pages/feedback.md).
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+More info on Astro’s framework in the [Astro documentation](https://docs.astro.build).
