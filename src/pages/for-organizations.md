@@ -51,12 +51,6 @@ care institutions, classrooms, and other shared spaces.
 - Remind people that **closing a game's tab brings them back to this site**.
   Nothing breaks if they close a tab by accident.
 
-## Suggesting a game
-
-If you know of a free, in-browser game that fits this audience, please
-let me know via the [Feedback](/feedback/) page. Suggestions are read by a
-person, not a queue.
-
 ## Questions
 
 Anything not covered here, ask. [Feedback](/feedback/) has a direct email.
