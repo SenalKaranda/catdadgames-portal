@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, SITE_NAME } from '@/config';
+
+const subject = encodeURIComponent(`[${SITE_NAME}] Feedback`);
+const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}`;
+---
+
+<BaseLayout
+  title="Feedback"
+  description={`How to reach the curator of ${SITE_NAME}.`}
+>
+  <article class="prose mx-auto max-w-3xl px-4 py-12">
+    <h1>Feedback</h1>
+
+    <p>
+      Real questions, suggestions, accessibility reports, and game ideas
+      are all welcome. Email goes straight to a person, not a queue.
+    </p>
+
+    <p class="not-prose my-8 text-center">
+      <a
+        href={mailto}
+        class="inline-block min-h-16 rounded-lg bg-accent px-8 py-5 text-xl font-bold text-accent-ink no-underline hover:opacity-90"
+      >
+        Send feedback by email
+      </a>
+    </p>
+
+    <h2>If that button does not work</h2>
+    <p>
+      Some computers do not have an email program set up. If the button
+      above opens nothing, copy this address and paste it into your email:
+    </p>
+    <p class="text-center text-xl font-bold">
+      <span class="select-all">{CONTACT_EMAIL}</span>
+    </p>
+
+    <h2>What helps in a message</h2>
+    <ul>
+      <li>If something is broken: what page, and what happened.</li>
+      <li>
+        If something is hard to read or use: which page, and what you tried.
+      </li>
+      <li>If you have a game to suggest: the link, and why you like it.</li>
+    </ul>
+
+    <p>
+      Replies may take a few days. Accessibility reports are handled first.
+    </p>
+  </article>
+</BaseLayout>

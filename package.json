@@ -1,7 +1,8 @@
 {
-  "name": "portal",
+  "name": "catdadgames-portal",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "private": true,
   "engines": {
     "node": ">=22.12.0"
   },
@@ -9,9 +10,36 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "check": "astro check",
+    "astro": "astro",
+    "new-game": "tsx scripts/new-game.ts",
+    "a11y": "tsx scripts/a11y-audit.ts",
+    "lhci": "lhci autorun",
+    "generate-og": "tsx scripts/generate-og.ts"
   },
   "dependencies": {
-    "astro": "^6.3.7"
+    "@astrojs/sitemap": "^3.7.2",
+    "@fontsource/atkinson-hyperlegible": "^5.2.8",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.7",
+    "marked": "^18.0.4",
+    "tailwindcss": "^4.3.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@axe-core/playwright": "^4.11.3",
+    "@lhci/cli": "^0.15.1",
+    "@types/node": "^25.9.1",
+    "http-server": "^14.1.1",
+    "playwright": "^1.60.0",
+    "sharp": "^0.34.5",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
   }
 }

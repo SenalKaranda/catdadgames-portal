@@ -1,0 +1,46 @@
+slug: think-backwards
+title: Think Backwards
+tagline: A Jeopardy-inspired hotseat trivia game for groups.
+description: |
+  Think Backwards is a trivia game in the spirit of Jeopardy — you see the
+  answer, and your job is to come up with the question. Players take turns at
+  one shared device, so it's a great fit for living rooms, classrooms, and
+  community spaces where one screen is easier than asking everyone to bring a
+  phone.
+
+  No accounts, no installs. Open the game in a browser and play.
+url: https://thinkbackwards.app
+launch_target: new_tab
+
+# Thumbnail: drop a 1200x675 WebP at ./thumbnails/think-backwards.webp and
+# uncomment the line below. Until then the emoji card fallback is used.
+# thumbnail: ./thumbnails/think-backwards.webp
+fallback_emoji: "🎯"
+fallback_color: "#14352A"
+
+tags:
+  - trivia
+  - hotseat
+  - family
+  - party
+players: "2–6 players, one device"
+duration: "20–40 minutes"
+ui_language: en
+tech: TypeScript / Next.js
+
+# Conservative defaults — please verify against the live game and update.
+accessibility:
+  keyboard_navigation: partial
+  screen_reader: partial
+  high_contrast_mode: true
+  text_resize: true
+  reduced_motion: true
+  color_only_signals: false
+  audio_required: false
+  notes: |
+    Initial conservative assessment pending a manual a11y pass.
+
+status: published
+added: 2025-11-15
+updated: 2026-05-24
+featured: true

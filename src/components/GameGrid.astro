@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import GameCard from '@/components/GameCard.astro';
+
+interface Props {
+  entries: CollectionEntry<'games'>[];
+  label?: string;
+  featured?: boolean;
+}
+
+const { entries, label, featured = false } = Astro.props;
+---
+
+<section aria-label={label}>
+  {
+    entries.length === 0 ? (
+      <p
+        data-empty
+        class="rounded-xl border-2 border-dashed border-ink-soft p-8 text-center"
+      >
+        No games match those filters.
+      </p>
+    ) : (
+      <ul
+        data-game-grid
+        class:list={[
+          'grid list-none gap-6 p-0',
+          featured
+            ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        ]}
+      >
+        {entries.map((entry) => (
+          <li>
+            <GameCard entry={entry} featured={featured} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>

@@ -1,0 +1,124 @@
+---
+// Light / Dark / Auto theme selector.
+// State lives on <html data-theme>, persisted to localStorage as 'cdg-theme'.
+// "auto" removes the override and follows prefers-color-scheme.
+---
+
+<div
+  class="inline-flex items-center gap-1 rounded-full border-2 border-ink-soft bg-bg-soft p-1"
+  role="group"
+  aria-label="Theme"
+  data-theme-toggle
+>
+  <button
+    type="button"
+    data-theme-choice="light"
+    class="min-h-12 rounded-full px-3 text-base font-semibold leading-none text-ink hover:bg-bg aria-pressed:bg-ink aria-pressed:text-bg"
+    aria-pressed="false"
+  >
+    Light
+  </button>
+  <button
+    type="button"
+    data-theme-choice="dark"
+    class="min-h-12 rounded-full px-3 text-base font-semibold leading-none text-ink hover:bg-bg aria-pressed:bg-ink aria-pressed:text-bg"
+    aria-pressed="false"
+  >
+    Dark
+  </button>
+  <button
+    type="button"
+    data-theme-choice="auto"
+    class="min-h-12 rounded-full px-3 text-base font-semibold leading-none text-ink hover:bg-bg aria-pressed:bg-ink aria-pressed:text-bg"
+    aria-pressed="true"
+  >
+    Auto
+  </button>
+</div>
+
+<script>
+  const STORAGE_KEY = 'cdg-theme';
+  const VALID = new Set(['light', 'dark']);
+
+  function applyTheme(choice: string) {
+    if (choice === 'auto') {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch {
+        /* ignore */
+      }
+      const prefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches;
+      document.documentElement.setAttribute(
+        'data-theme',
+        prefersDark ? 'dark' : 'light',
+      );
+    } else if (VALID.has(choice)) {
+      document.documentElement.setAttribute('data-theme', choice);
+      try {
+        localStorage.setItem(STORAGE_KEY, choice);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
+  function currentChoice(): 'light' | 'dark' | 'auto' {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch {
+      /* ignore */
+    }
+    return 'auto';
+  }
+
+  function init() {
+    const groups = document.querySelectorAll<HTMLElement>(
+      '[data-theme-toggle]',
+    );
+    if (!groups.length) return;
+
+    const choice = currentChoice();
+
+    groups.forEach((group) => {
+      const buttons = group.querySelectorAll<HTMLButtonElement>(
+        'button[data-theme-choice]',
+      );
+      buttons.forEach((b) => {
+        b.setAttribute(
+          'aria-pressed',
+          String(b.dataset.themeChoice === choice),
+        );
+        b.addEventListener('click', () => {
+          const next = b.dataset.themeChoice;
+          if (!next) return;
+          applyTheme(next);
+          document
+            .querySelectorAll<HTMLButtonElement>(
+              '[data-theme-toggle] button[data-theme-choice]',
+            )
+            .forEach((other) =>
+              other.setAttribute(
+                'aria-pressed',
+                String(other.dataset.themeChoice === next),
+              ),
+            );
+        });
+      });
+    });
+
+    // Follow OS theme changes while "auto" is selected.
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener('change', () => {
+      if (currentChoice() === 'auto') applyTheme('auto');
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

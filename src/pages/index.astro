@@ -1,17 +1,92 @@
 ---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import GameGrid from '@/components/GameGrid.astro';
+import FilterChips from '@/components/FilterChips.astro';
+import { SITE_TAGLINE } from '@/config';
 
+const all = await getCollection('games', ({ data }) => data.status === 'published');
+
+// Stable sort: featured first, then most recently updated.
+const sorted = all.sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return b.data.updated.getTime() - a.data.updated.getTime();
+});
+
+const featured = sorted.filter((g) => g.data.featured).slice(0, 3);
+const allTags = Array.from(
+  new Set(sorted.flatMap((g) => g.data.tags)),
+).sort();
+
+const siteUrl = Astro.site?.toString() ?? '';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Cat Dad Games',
+  description: SITE_TAGLINE,
+  url: siteUrl,
+  hasPart: sorted.map((entry) => ({
+    '@type': 'Game',
+    name: entry.data.title,
+    description: entry.data.tagline,
+    url: new URL(`/games/${entry.data.slug}/`, siteUrl).toString(),
+  })),
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Cat Dad Games" description={SITE_TAGLINE}>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(jsonLd)}
+    />
+  </Fragment>
+  <section
+    class="border-b-2 border-line bg-bg-soft"
+    aria-labelledby="hero-heading"
+  >
+    <div class="mx-auto max-w-4xl px-4 py-16 text-center">
+      <h1 id="hero-heading" class="text-4xl font-bold md:text-5xl">
+        {SITE_TAGLINE}
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl">
+        Free, in-browser games. No accounts. No ads. No third-party trackers.
+      </p>
+      <p class="mt-8">
+        <a
+          href="#games"
+          class="inline-block min-h-14 rounded-lg bg-ink px-6 py-4 text-lg font-bold text-bg no-underline hover:bg-ink-soft"
+        >
+          Browse games
+        </a>
+      </p>
+    </div>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <section
+        class="mx-auto max-w-6xl px-4 py-12"
+        aria-labelledby="featured-heading"
+      >
+        <h2 id="featured-heading" class="mb-6 text-3xl font-bold">
+          Featured
+        </h2>
+        <GameGrid entries={featured} label="Featured games" featured />
+      </section>
+    )
+  }
+
+  <section
+    id="games"
+    class="mx-auto max-w-6xl px-4 py-8"
+    aria-labelledby="all-games-heading"
+  >
+    <h2 id="all-games-heading" class="mb-6 text-3xl font-bold">
+      All games
+    </h2>
+    <FilterChips tags={allTags} />
+    <GameGrid entries={sorted} label="All games" />
+  </section>
+</BaseLayout>

@@ -1,0 +1,93 @@
+---
+// Three-step text-size control: 100% / 125% / 150%.
+// State lives on <html data-text-size>, persisted to localStorage.
+// The no-FOUC script in BaseLayout reads the saved value before paint.
+---
+
+<div
+  class="inline-flex items-center gap-0 rounded-full border-2 border-ink-soft bg-bg-soft p-1"
+  role="group"
+  aria-label="Text size"
+  data-text-size-toggle
+>
+  <button
+    type="button"
+    data-size="100"
+    class="min-h-12 min-w-12 rounded-full px-3 leading-none text-ink hover:bg-bg aria-pressed:bg-ink aria-pressed:text-bg"
+    aria-pressed="true"
+  >
+    <span aria-hidden="true" style="font-size: 0.95rem; font-weight: 700;">A</span>
+    <span class="sr-only">Default text size</span>
+  </button>
+  <button
+    type="button"
+    data-size="125"
+    class="min-h-12 min-w-12 rounded-full px-3 leading-none text-ink hover:bg-bg aria-pressed:bg-ink aria-pressed:text-bg"
+    aria-pressed="false"
+  >
+    <span aria-hidden="true" style="font-size: 1.15rem; font-weight: 700;">A</span>
+    <span class="sr-only">Larger text</span>
+  </button>
+  <button
+    type="button"
+    data-size="150"
+    class="min-h-12 min-w-12 rounded-full px-3 leading-none text-ink hover:bg-bg aria-pressed:bg-ink aria-pressed:text-bg"
+    aria-pressed="false"
+  >
+    <span aria-hidden="true" style="font-size: 1.4rem; font-weight: 700;">A</span>
+    <span class="sr-only">Largest text</span>
+  </button>
+</div>
+
+<script>
+  const STORAGE_KEY = 'cdg-text-size';
+  const VALID = new Set(['100', '125', '150']);
+
+  function init() {
+    const groups = document.querySelectorAll<HTMLElement>(
+      '[data-text-size-toggle]',
+    );
+    if (!groups.length) return;
+
+    const current =
+      document.documentElement.getAttribute('data-text-size') ?? '100';
+
+    groups.forEach((group) => {
+      const buttons =
+        group.querySelectorAll<HTMLButtonElement>('button[data-size]');
+      buttons.forEach((b) => {
+        b.setAttribute(
+          'aria-pressed',
+          String(b.dataset.size === current),
+        );
+        b.addEventListener('click', () => {
+          const size = b.dataset.size;
+          if (!size || !VALID.has(size)) return;
+          document.documentElement.setAttribute('data-text-size', size);
+          try {
+            localStorage.setItem(STORAGE_KEY, size);
+          } catch {
+            /* ignore quota / privacy mode */
+          }
+          // Sync every toggle group on the page
+          document
+            .querySelectorAll<HTMLButtonElement>(
+              '[data-text-size-toggle] button[data-size]',
+            )
+            .forEach((other) =>
+              other.setAttribute(
+                'aria-pressed',
+                String(other.dataset.size === size),
+              ),
+            );
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

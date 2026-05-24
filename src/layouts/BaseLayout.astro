@@ -1,0 +1,145 @@
+---
+import '@/styles/global.css';
+import SkipLink from '@/components/SkipLink.astro';
+import TextSizeToggle from '@/components/TextSizeToggle.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
+import { SITE_NAME, NAV_LINKS, REPO_URL } from '@/config';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const { title, description, ogImage, canonical } = Astro.props;
+
+const canonicalURL =
+  canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageURL =
+  ogImage ?? new URL('/og-default.png', Astro.site).toString();
+const fullTitle = title.endsWith(SITE_NAME)
+  ? title
+  : `${title} | ${SITE_NAME}`;
+const currentPath = Astro.url.pathname;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={SITE_NAME} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <slot name="head" />
+
+    <script is:inline>
+      // No-FOUC: apply saved theme + text-size BEFORE first paint.
+      (function () {
+        try {
+          var ts = localStorage.getItem('cdg-text-size');
+          if (ts === '100' || ts === '125' || ts === '150') {
+            document.documentElement.setAttribute('data-text-size', ts);
+          }
+          var theme = localStorage.getItem('cdg-theme');
+          if (theme === 'dark' || theme === 'light') {
+            document.documentElement.setAttribute('data-theme', theme);
+          } else {
+            var prefersDark =
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute(
+              'data-theme',
+              prefersDark ? 'dark' : 'light',
+            );
+          }
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <SkipLink />
+
+    <header class="border-b-2 border-line bg-bg-soft">
+      <div
+        class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4"
+      >
+        <a
+          href="/"
+          class="text-2xl font-bold no-underline text-ink"
+          aria-label={`${SITE_NAME} — home`}
+        >
+          {SITE_NAME}
+        </a>
+
+        <nav aria-label="Primary" class="order-3 w-full md:order-2 md:w-auto">
+          <ul class="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {
+              NAV_LINKS.map((link) => {
+                const isActive = currentPath.startsWith(link.href);
+                return (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="text-ink font-semibold"
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </nav>
+
+        <div
+          class="order-2 flex flex-wrap items-center gap-2 md:order-3"
+        >
+          <TextSizeToggle />
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" class="flex-1 outline-none">
+      <slot />
+    </main>
+
+    <footer class="mt-16 border-t-2 border-line bg-bg-soft">
+      <div class="mx-auto max-w-6xl px-4 py-10">
+        <nav aria-label="Footer">
+          <ul class="mb-6 flex flex-wrap gap-x-6 gap-y-3">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/accessibility/">Accessibility</a></li>
+            <li><a href="/for-organizations/">For organizations</a></li>
+            <li><a href="/feedback/">Feedback</a></li>
+            <li>
+              <a href={REPO_URL} rel="noopener">Source code</a>
+            </li>
+          </ul>
+        </nav>
+        <p class="text-base">
+          © {year} {SITE_NAME}. No ads. No third-party trackers.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

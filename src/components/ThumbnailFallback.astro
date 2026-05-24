@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  game: CollectionEntry<'games'>['data'];
+  // Sets width/height for the underlying <Image>. Tier 2/3 fill their parent.
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  // Sets aspect-ratio on tier 2/3 fallback boxes. Tier 1 honors the image.
+  aspect?: string;
+}
+
+const {
+  game,
+  width = 600,
+  height = 338,
+  loading = 'lazy',
+  aspect = '16 / 9',
+} = Astro.props;
+
+const hasThumbnail = !!game.thumbnail;
+const hasEmoji = !!game.fallback_emoji && !!game.fallback_color;
+
+// Tier 3 gradient — derived from slug so it's stable per game.
+function hashHue(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h) % 360;
+}
+const hue = hashHue(game.slug);
+const tier3Bg = `linear-gradient(135deg, hsl(${hue}, 35%, 30%), hsl(${(hue + 40) % 360}, 35%, 18%))`;
+---
+
+{
+  hasThumbnail ? (
+    <Image
+      src={game.thumbnail!}
+      alt=""
+      width={width}
+      height={height}
+      loading={loading}
+      class="block h-auto w-full object-cover"
+    />
+  ) : hasEmoji ? (
+    <div
+      class="flex w-full items-center justify-center"
+      style={{
+        aspectRatio: aspect,
+        backgroundColor: game.fallback_color,
+      }}
+      aria-hidden="true"
+    >
+      <span style="font-size: clamp(3rem, 12vw, 6rem); line-height: 1;">
+        {game.fallback_emoji}
+      </span>
+    </div>
+  ) : (
+    <div
+      class="flex w-full items-center justify-center p-4 text-center"
+      style={{ aspectRatio: aspect, background: tier3Bg }}
+      aria-hidden="true"
+    >
+      <span class="text-2xl font-bold text-white drop-shadow-md">
+        {game.title}
+      </span>
+    </div>
+  )
+}

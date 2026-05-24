@@ -1,0 +1,65 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ThumbnailFallback from '@/components/ThumbnailFallback.astro';
+
+interface Props {
+  entry: CollectionEntry<'games'>;
+  featured?: boolean;
+}
+
+const { entry, featured = false } = Astro.props;
+const game = entry.data;
+const href = `/games/${game.slug}/`;
+
+// Per game data: comma-joined for the FilterChips island to read.
+const tagsAttr = game.tags.join(',');
+const a11yFlags: string[] = [];
+if (game.accessibility.keyboard_navigation === true) a11yFlags.push('keyboard');
+if (game.accessibility.screen_reader === true) a11yFlags.push('screen-reader');
+if (game.accessibility.audio_required === false) a11yFlags.push('no-audio');
+if (game.accessibility.color_only_signals === false) a11yFlags.push('color-not-required');
+if (game.accessibility.high_contrast_mode === true) a11yFlags.push('high-contrast');
+if (game.accessibility.text_resize === true) a11yFlags.push('text-resize');
+const a11yAttr = a11yFlags.join(',');
+
+const displayTags = game.tags.slice(0, 3);
+---
+
+<article
+  data-game
+  data-tags={tagsAttr}
+  data-a11y={a11yAttr}
+  class:list={[
+    'flex flex-col overflow-hidden rounded-xl border-2 border-line bg-bg',
+    featured && 'md:col-span-2',
+  ]}
+>
+  <a
+    href={href}
+    aria-label={`Open ${game.title}`}
+    class="block no-underline focus-visible:outline-none"
+    tabindex="-1"
+  >
+    <ThumbnailFallback game={game} loading={featured ? 'eager' : 'lazy'} />
+  </a>
+
+  <div class="flex flex-1 flex-col gap-3 p-5">
+    <h3 class={featured ? 'text-3xl font-bold' : 'text-2xl font-bold'}>
+      <a href={href} class="text-ink no-underline hover:underline">
+        {game.title}
+      </a>
+    </h3>
+    <p class="flex-1 text-ink">{game.tagline}</p>
+    {
+      displayTags.length > 0 && (
+        <ul class="flex flex-wrap gap-2" aria-label="Tags">
+          {displayTags.map((tag) => (
+            <li class="rounded-full border-2 border-ink-soft px-3 py-1 text-base font-semibold text-ink">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
