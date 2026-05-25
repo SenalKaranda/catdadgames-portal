@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'zod';
 
 // Accessibility flags can be true, false, or "partial" — see §5/§7 of design doc.
 const a11yFlag = z.union([z.boolean(), z.literal('partial')]);

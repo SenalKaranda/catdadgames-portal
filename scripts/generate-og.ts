@@ -12,7 +12,6 @@ const H = 630;
 const BG = '#F6F1E4';
 const INK = '#14352A';
 const ACCENT = '#8A4A0E';
-const LINE = '#D2C7A8';
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
