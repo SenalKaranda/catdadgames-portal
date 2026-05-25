@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 dist-screenshots/
 .lighthouseci/
+
+# local design scratch / working docs
+docs/
