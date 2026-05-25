@@ -1,0 +1,45 @@
+slug: follow-pattern
+title: Follow Directions
+tagline: Watch. Remember. Repeat.
+description: |
+  Follow Directions is a single-player memory game in the spirit of the
+  classic light-up sequence toys. Watch the pads light up, then tap them
+  back in the same order. The pattern grows each round — see how far your
+  memory can take you. Four modes (Classic, Speed Run, Reverse, Endless)
+  vary the lives, timer, and playback speed for a different challenge each
+  time.
+
+url: https://followpattern.catdadgames.com
+launch_target: new_tab
+
+# Thumbnail: drop a 1200x675 WebP at ./thumbnails/follow-pattern.webp and
+# uncomment the line below. Until then the emoji card fallback is used.
+thumbnail: ./thumbnails/follow-pattern.webp
+fallback_emoji: "🧠"
+fallback_color: "#0a1d8a"
+
+tags:
+  - Memory
+  - Single Player
+  - Arcade
+  - Casual
+players: "1 player, one device"
+duration: "5–15 minutes per session"
+ui_language: en
+tech: TypeScript / React
+
+# Conservative defaults — please verify against the live game and update.
+accessibility:
+  keyboard_navigation: partial
+  screen_reader: partial
+  high_contrast_mode: true
+  text_resize: true
+  reduced_motion: true
+  color_only_signals: false
+  audio_required: false
+  notes: |
+
+status: published
+added: 2026-05-25
+updated: 2026-05-25
+featured: false

@@ -1,0 +1,49 @@
+slug: criss-cross
+title: Criss Cross Trivia
+tagline: A trivia game where every answer becomes part of a crossword.
+description: |
+  Criss Cross Trivia generates a fresh crossword board on the fly from the
+  categories you pick, then asks you to fill it in one letter at a time.
+  Play Solo or Hotseat (2–4 players sharing one device) across Casual,
+  Time Attack, and Stock Attack modes. Offline-first — install as a PWA,
+  run as a desktop app, or sideload the Android APK.
+
+url: https://crisscross.catdadgames.com
+launch_target: new_tab
+
+# Thumbnail: drop a 1200x675 WebP at ./thumbnails/criss-cross.webp and
+# uncomment the line below. Until then the emoji card fallback is used.
+thumbnail: ./thumbnails/criss-cross.webp
+fallback_emoji: "🧩"
+fallback_color: "#0a1d8a"
+
+tags:
+  - Trivia
+  - Crossword
+  - Hotseat
+  - Solo
+  - Family
+  - Party
+players: "1–4 players, one device"
+duration: "10–30 minutes"
+ui_language: en
+tech: TypeScript / React / Vite / Tauri
+
+# Conservative defaults — please verify against the live game and update.
+accessibility:
+  keyboard_navigation: full
+  screen_reader: partial
+  high_contrast_mode: true
+  text_resize: true
+  reduced_motion: true
+  color_only_signals: false
+  audio_required: false
+  notes: |
+    Five themes including High Contrast. Four UI sizes from Compact to
+    Extra Large. Full physical and on-screen keyboard support.
+    Animations respect OS-level reduced-motion preference.
+
+status: published
+added: 2026-05-24
+updated: 2026-05-25
+featured: true

@@ -1,0 +1,49 @@
+slug: memory-match
+title: Memory Match
+tagline: A solo emoji tile matching game.
+description: |
+  Memory Match is the classic concentration game refreshed with emoji
+  categories and modern difficulty options. Flip tiles two at a time looking
+  for matching pairs, clear the board to win, and chase your personal best.
+  Three difficulty presets, seven emoji categories, two scoring modes, and
+  five mechanics toggles (peek-at-start, countdown timer, sudden death,
+  limited moves, shuffle on miss) so each round can feel different.
+
+url: https://memorymatch.catdadgames.com
+launch_target: new_tab
+
+# Thumbnail: drop a 1200x675 WebP at ./thumbnails/memory-match.webp and
+# uncomment the line below. Until then the emoji card fallback is used.
+thumbnail: ./thumbnails/memory-match.webp
+fallback_emoji: "🧠"
+fallback_color: "#0a1d8a"
+
+tags:
+  - Memory
+  - Solo
+  - Puzzle
+  - Casual
+  - Family
+players: "1 player"
+duration: "1–15 minutes"
+ui_language: en
+tech: TypeScript / Vite / React
+
+# Conservative defaults — please verify against the live game and update.
+accessibility:
+  keyboard_navigation: full
+  screen_reader: partial
+  high_contrast_mode: true
+  text_resize: true
+  reduced_motion: true
+  color_only_signals: false
+  audio_required: false
+  notes: |
+    Full arrow-key navigation on the board (Enter/Space to flip, Escape to
+    pause). HUD values use aria-live regions. High-contrast theme and
+    large-text mode are user-toggleable in Settings.
+
+status: published
+added: 2026-05-25
+updated: 2026-05-25
+featured: true
