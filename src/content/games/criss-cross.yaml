@@ -31,7 +31,7 @@ tech: TypeScript / React / Vite / Tauri
 
 # Conservative defaults — please verify against the live game and update.
 accessibility:
-  keyboard_navigation: full
+  keyboard_navigation: true
   screen_reader: partial
   high_contrast_mode: true
   text_resize: true
