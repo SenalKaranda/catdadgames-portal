@@ -20,7 +20,7 @@ fallback_color: "#0a1d8a"
 
 tags:
   - Memory
-  - Solo
+  - Single Player
   - Puzzle
   - Casual
   - Family
@@ -46,4 +46,4 @@ accessibility:
 status: published
 added: 2026-05-25
 updated: 2026-05-25
-featured: true
+featured: false
